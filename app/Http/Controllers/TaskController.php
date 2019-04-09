@@ -39,7 +39,13 @@ class TaskController extends Controller
     {
         // バリデーション失敗時のリダイレクトやエラー内容のセッション記録も自動で行ってくれる
         $this->validate($request, [
-        'name' => 'required|max:255',
+            'name' => 'required|max:255',
     ]);
+
+        $request->user()->tasks()->create([
+            'name' => $request->name,
+        ]);
+
+        return redirect(('/tasks'));
     }
 }
