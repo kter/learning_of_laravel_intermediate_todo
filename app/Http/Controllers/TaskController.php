@@ -8,5 +8,13 @@ use App\Http\Requests;
 
 class TaskController extends Controller
 {
-    //
+    /**
+     * 新しいコントローラインスタンスの生成
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 }
