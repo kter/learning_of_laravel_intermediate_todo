@@ -13,4 +13,13 @@ class Task extends Model
      */
     // モデル保存時の保存ができる属性（ホワイトリスト）
     protected $fillable = ['name'];
+
+    /**
+     * タスク所有ユーザーの取得
+     *
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
