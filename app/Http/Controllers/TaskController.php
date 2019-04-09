@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Repositories\TaskRepository;
 
 class TaskController extends Controller
 {
+
+    /**
+     * タスクリポジトリーインスタンス
+     *
+     * @var TaskRepository
+     */
+    protected $tasks;
+
     /**
      * 新しいコントローラインスタンスの生成
      *
@@ -16,6 +25,8 @@ class TaskController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->tasks = $tasks;
     }
 
     /**
@@ -26,10 +37,9 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = $request->user()->tasks()->get();
 
         return view('tasks.index', [
-            'tasks' => $tasks,
+            'tasks' => $this->tasks->forUser($request->user()),
         ]);
     }
 
