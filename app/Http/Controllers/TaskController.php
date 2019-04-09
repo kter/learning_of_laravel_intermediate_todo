@@ -28,4 +28,18 @@ class TaskController extends Controller
     {
         return view('tasks.index');
     }
+
+    /**
+     * 新タスク作成
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        // バリデーション失敗時のリダイレクトやエラー内容のセッション記録も自動で行ってくれる
+        $this->validate($request, [
+        'name' => 'required|max:255',
+    ]);
+    }
 }
