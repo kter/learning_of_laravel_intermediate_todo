@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -61,5 +62,17 @@ class TaskController extends Controller
         ]);
 
         return redirect(('/tasks'));
+    }
+
+    /**
+     * 指定タスクの削除
+     *
+     * @param Request $request
+     * @param Task $task
+     * @return Response
+     */
+    public function destroy(Request $request, Task $task)
+    {
+        //
     }
 }
