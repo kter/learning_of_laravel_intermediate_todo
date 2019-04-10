@@ -16,6 +16,6 @@ class TaskRepository
     {
         return $user->tasks()
             ->orderBy('created_at', 'asc')
-            -get();
+            ->get();
     }
 }
