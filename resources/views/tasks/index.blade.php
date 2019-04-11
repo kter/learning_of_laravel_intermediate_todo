@@ -1,58 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- タスクフォームの作成… -->
+    <div class="container">
+        <div class="col-sm-offset-2 col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    New Task
+                </div>
 
-    <!-- 現在のタスク -->
-    @if (count($tasks) > 0)
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Current Tasks
+                <div class="panel-body">
+                    <!-- Display Validation Errors -->
+                @include('common.errors')
+
+                <!-- New Task Form -->
+                    <form action="{{ url('task') }}" method="POST" class="form-horizontal">
+                    {{ csrf_field() }}
+
+                    <!-- Task Name -->
+                        <div class="form-group">
+                            <label for="task-name" class="col-sm-3 control-label">Task</label>
+
+                            <div class="col-sm-6">
+                                <input type="text" name="name" id="task-name" class="form-control" value="{{ old('task') }}">
+                            </div>
+                        </div>
+
+                        <!-- Add Task Button -->
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fa fa-btn fa-plus"></i>Add Task
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
 
-            <div class="panel-body">
-                <table class="table table-striped task-table">
+            <!-- Current Tasks -->
+            @if (count($tasks) > 0)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Current Tasks
+                    </div>
 
-                    <!-- テーブルヘッダ -->
-                    <thead>
-                    <th>Task</th>
-                    <th>&nbsp;</th>
-                    </thead>
+                    <div class="panel-body">
+                        <table class="table table-striped task-table">
+                            <thead>
+                            <th>Task</th>
+                            <th>&nbsp;</th>
+                            </thead>
+                            <tbody>
+                            @foreach ($tasks as $task)
+                                <tr>
+                                    <td class="table-text"><div>{{ $task->name }}</div></td>
 
-                    <!-- テーブル本体 -->
-                    <tbody>
-                    @foreach ($tasks as $task)
-                        <tr>
-                            <!-- Task Name -->
-                            <td class="table-text">
-                                <div>{{ $task->name }}</div>
-                            </td>
+                                    <!-- Task Delete Button -->
+                                    <td>
+                                        <form action="{{url('task/' . $task->id)}}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
 
-                            <td>
-                        <tr>
-                            <!-- タスク名 -->
-                            <td class="table-text">
-                                <div>{{ $task->name }}</div>
-                            </td>
-
-                            <!-- 削除ボタン -->
-                            <td>
-                                <form action="{{ url('task/'.$task->id) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-
-                                    <button type="submit" id="delete-task-{{ $task->id }}" class="btn btn-danger">
-                                        <i class="fa fa-btn fa-trash"></i>削除
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                            <button type="submit" id="delete-task-{{ $task->id }}" class="btn btn-danger">
+                                                <i class="fa fa-btn fa-trash"></i>Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
         </div>
-    @endif
+    </div>
 @endsection
